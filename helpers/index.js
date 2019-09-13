@@ -46,26 +46,37 @@ function getTasks() {
   return db('tasks');
 }
 
+// async function getProjectTasks(project_id) {
+//   if(!project_id) return false;
+//   else {
+//     let tasks = await db.select(
+//       [
+//         'projects.name as project_name',
+//         'projects.description as project_description',
+//         'tasks.description as task_description',
+//         'tasks.notes',
+//         'tasks.project_id'
+//       ])
+//       .from('tasks')
+//       .where({ project_id })
+//     .leftJoin('projects', 'tasks.project_id', 'id')
+//     .orderBy('project.id');
+//     console.log(tasks);
+//     tasks.forEach(t => {
+//       t.completed = t.completed === 1;
+//     });
+//     return tasks;
+//   }
+// }
+
 async function getProjectTasks(project_id) {
   if(!project_id) return false;
   else {
-    let tasks = await db.select(
-      [
-        //'projects.name as project_name',
-        //'projects.description as project_description',
-        'tasks.description as task_description',
-        'tasks.notes',
-        'tasks.project_id'
-      ])
-      .from('tasks')
-      .where({ project_id })
-    //.leftJoin('projects', 'tasks.project_id', 'id')
-    //.orderBy('project.id');
-    console.log(tasks);
-    tasks.forEach(t => {
-      t.completed = t.completed === 1;
-    });
-    return tasks;
+    let project = await db('projects').where({ id: project_id });
+    if(!project) return false;
+    project.completed = project.completed === 1;
+    project.tasks = await db('tasks').where({ project_id });
+    return project;
   }
 }
 

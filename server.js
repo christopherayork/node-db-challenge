@@ -43,6 +43,13 @@ server.get('/projects/:id', (req, res) => {
     });
 });
 
+server.get('/projects/:id/full', (req, res) => {
+  db.getProjectTasks(req.params.id)
+    .then(r => {
+
+    })
+});
+
 server.route('/resources')
   .get((req, res) => {
     db.getResources()
