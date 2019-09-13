@@ -42,23 +42,47 @@ function insertTask(task) {
   else return db('tasks').insert(task);
 }
 
-async function getTasks(project_id) {
+function getTasks() {
+  return db('tasks');
+}
+
+async function getProjectTasks(project_id) {
   if(!project_id) return false;
   else {
     let tasks = await db.select(
       [
-        'projects.name as project_name',
-        'projects.description as project_description',
+        //'projects.name as project_name',
+        //'projects.description as project_description',
         'tasks.description as task_description',
         'tasks.notes',
         'tasks.project_id'
       ])
       .from('tasks')
-      .leftJoin('projects', 'tasks.project_id', 'id')
-      .orderBy('project.id');
+      .where({ project_id })
+    //.leftJoin('projects', 'tasks.project_id', 'id')
+    //.orderBy('project.id');
+    console.log(tasks);
     tasks.forEach(t => {
       t.completed = t.completed === 1;
     });
     return tasks;
   }
 }
+
+function getTask(task_id) {
+  if(!task_id) return false;
+  else return db('tasks').where({ id: task_id });
+}
+
+module.exports = {
+  insertResource,
+  getResources,
+  getResource,
+  insertProject,
+  getProjects,
+  getProject,
+  insertTask,
+  getTasks,
+  getProjectTasks,
+  getTask
+};
