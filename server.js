@@ -46,8 +46,14 @@ server.get('/projects/:id', (req, res) => {
 server.get('/projects/:id/full', (req, res) => {
   db.getProjectTasks(req.params.id)
     .then(r => {
-
+      console.log(r);
+      if(r) res.status(200).json(r);
+      else res.status(404).json({ error: 'Could not find Project' });
     })
+    .catch(e => {
+      console.error(e);
+      res.status(500).json({ errorMessage: 'Could not complete request' });
+    });
 });
 
 server.route('/resources')

@@ -69,13 +69,24 @@ function getTasks() {
 //   }
 // }
 
+function getProjectResources(project_id) {
+  if(!project_id) return false;
+  else return db('projectResources')
+    .where({ project_id })
+    .join('resources', 'projectResources.resource_id', 'resources.id')
+    .orderBy('projectResources.resource_id');
+}
+
 async function getProjectTasks(project_id) {
   if(!project_id) return false;
   else {
     let project = await db('projects').where({ id: project_id });
     if(!project) return false;
+    project = project[0];
     project.completed = project.completed === 1;
     project.tasks = await db('tasks').where({ project_id });
+    project.resources = await getProjectResources(project_id);
+    console.log('Resources: ', project.resources);
     return project;
   }
 }
