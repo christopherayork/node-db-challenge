@@ -9,7 +9,8 @@ exports.seed = function(knex) {
         {id: 2, name: 'Eyes', description: 'Yes, you can see. Use them oculars.'},
         {id: 3, name: 'Couch', description: 'Smells like cheetos, decent place to sit.'},
         {id: 4, name: 'TV', description: 'Marvelous invention, source of your unproductivity.'},
-        {id: 5, name: 'Front Door', description: 'Keeps weird people out, and keeps you pale.'}
+        {id: 5, name: 'Front Door', description: 'Keeps weird people out, and keeps you pale.'},
+        {id: 6, name: 'Bed', description: 'You sleep on this, are you sure it isn\'t a sarcophagus?'}
       ]);
     });
 };
